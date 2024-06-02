@@ -7,7 +7,7 @@ class User(AbstractBaseUser):
     phone_number=models.CharField(max_length=11,unique=True)
     fullname=models.CharField(max_length=127)
     is_active=models.BooleanField(default=True)
-    is_admin=models.BooleanField(default=True)
+    is_admin=models.BooleanField(default=False)
     
     objects=UserManager() 
     
