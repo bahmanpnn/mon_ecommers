@@ -32,3 +32,20 @@ class User(AbstractBaseUser):
     def is_staff(self):
         'is user a staff? check is_admin of user,because every admin is staff'
         return self.is_admin
+    
+
+class OtpCode(models.Model):
+    '''
+        one time password is for authenticating user after registration with phone number.
+        we can connect phone number in this model with user models phone number but it does not need.
+
+        first we want authenticate user in next view then we get code that user fills and
+        we create user object.
+    '''
+
+    phone_number=models.CharField(max_length=11)
+    code=models.PositiveSmallIntegerField()
+    created_date=models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return f'{self.phone_number} - {self.code} - {self.created_date}'
