@@ -51,9 +51,9 @@ class UserChangeForm(forms.ModelForm):
         fields=('email','phone_number','fullname','password','is_active','is_admin','last_login')
 
 class UserRegisterForm(forms.Form):
-    phone_number=forms.CharField(widget=forms.TextInput(attrs={
+    phone_number=forms.CharField(max_length=11,widget=forms.TextInput(attrs={
         'class':'form-control'
-    }),max_length=11)
+    }))
 
     fullname=forms.CharField(widget=forms.TextInput(attrs={
         'class':'form-control'
@@ -66,6 +66,21 @@ class UserRegisterForm(forms.Form):
     password=forms.CharField(widget=forms.PasswordInput(attrs={
         'class':'form-control'
     }))
+
+    def clean_email(self):
+        email=self.cleaned_data['email']
+        user=User.objects.filter(email=email).exists()
+        if user:
+            raise ValidationError('this email already exists!!')
+        return email
+        
+    def clean_phone_number(self):
+        phone_number=self.cleaned_data['phone_number']
+        user=User.objects.filter(phone_number=phone_number).exists()
+        if user:
+            raise ValidationError('this phone number already exists!!')
+        return phone_number
+
 
 class VerifycodeForm(forms.Form):
     code=forms.IntegerField(widget = forms.TextInput(attrs={

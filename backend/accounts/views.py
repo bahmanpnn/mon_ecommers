@@ -25,7 +25,7 @@ class UserRegisterView(View):
             # send code and phone number to function in utils to use them and sms code to user
             send_otp_code(cd['phone_number'],random_code) 
             #sms code to phone number
-            OtpCode.objects.create(phone_number=cd['phone_number'],code=random_code) 
+            OtpCode.objects.create(phone_number=form.cleaned_data['phone_number'],code=random_code) 
 
             #save data in sessions to use them again if code is true and register user with them
             request.session['user_registeration_info']={
