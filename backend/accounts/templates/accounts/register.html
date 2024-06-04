@@ -1,7 +1,11 @@
 {% extends "base.html" %}
+{% load static %}
+
 
 {% block title %}register page{% endblock title %}
-
+{% block headers %}
+    <link rel="stylesheet" href="{% static "accounts/css/accounts.css" %}">
+{% endblock headers %}
 {% block content %}
 
     <form method='post' class="col-md-3 offset-4" action="" novalidate>

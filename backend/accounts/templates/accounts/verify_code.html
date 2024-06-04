@@ -1,6 +1,12 @@
 {% extends "base.html" %}
+{% load static %}
+
 
 {% block title %}verify code page{% endblock title %}
+
+{% block headers %}
+    <link rel="stylesheet" href="{% static "accounts/css/accounts.css" %}">
+{% endblock headers %}
 
 {% block content %}
 
