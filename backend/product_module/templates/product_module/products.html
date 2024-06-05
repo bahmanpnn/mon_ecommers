@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}products page{% endblock title %}
+
+{% block headers %}
+    {% comment %} <link rel="stylesheet" href="{% static "products_module/css/products_module.css" %}"> {% endcomment %}
+{% endblock headers %}
+
+{% block content %}
+    {% if products %}
+
+        {% for product in products %}
+             <div class="card" style="width: 18rem;" >
+                 <div class="card-body">
+                     <h5 class="card-title">{{product.name}}</h5>
+                     <p class="card-text">{{product.description}}</p>
+                     <a href="{{product.get_absolute_url}}">
+                        <img src="{{product.image.url}}" class="card-img-top" alt="...">
+                    </a>
+                     
+                {% comment %} <a href="{% url "products:product-detail" slug=product.slug %}" class="btn btn-primary">Go somewhere</a>  {% endcomment %}
+                </div>
+            </div> 
+
+            {% comment %} <div class="card" style="width: 18rem;">
+                <h5 class="card-title">{{product.name}}</h5>
+                <img src="{{product.image.url}}" class="card-img-top" alt="...">
+                <div class="card-body">
+                  <p class="card-text">{{product.description}}</p>
+                </div>
+            </div>  {% endcomment %}
+        {% endfor %}
+
+    {% endif %}
+{% endblock content %}
