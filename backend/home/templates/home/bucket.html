@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+{% load static %}
+
+
+{% block title %}
+    homepage
+{% endblock title %}
+
+{% block headers %}
+    {% comment %} <link rel="stylesheet" href="{% static "home/css/home.css" %}"> {% endcomment %}
+{% endblock headers %}
+
+
+
+{% block content %}
+    {% if objects %}
+        <table class="table table-striped">
+            <thead class="table-dark">
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Name</th>
+                <th scope="col">Size</th>
+                <th scope="col">Download</th>
+                <th scope="col">Delete</th>
+            </tr>
+            </thead>
+            <tbody>
+                {% for obj in objects %}
+                    <tr>
+                        <th scope="row">{{forloop.counter}}</th>
+                        <td>{{obj.Key}}</td>
+                        <td>{{obj.Size | filesizeformat}}</td>
+                        <td>Download</td>
+                        <td>Delete</td>
+                    </tr>
+                {% endfor %}
+
+            </tbody>
+        </table>
+    {% endif %}
+{% endblock content %}
+

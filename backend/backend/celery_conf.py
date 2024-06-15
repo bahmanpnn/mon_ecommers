@@ -7,7 +7,7 @@ os.environ.setdefault('DJANGO_SETTINGS_MODULE','backend.settings')
 celery_app=Celery('backend') #celery app name must be project name
 celery_app.autodiscover_tasks()
 
-celery_app.conf.broker_url='amqp://rabbitmq' #its for localhost.for server it must change
+celery_app.conf.broker_url='amqp://' #its for localhost.for server it must change.'amqp://guest:guest@localhost:port'
 celery_app.conf.result_backend='rpc://'
 celery_app.conf.task_serializer='json' #defaul mode
 celery_app.conf.result_serializer='pickle' #defaul mode is json but for more info set pickle,json is better
