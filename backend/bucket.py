@@ -7,6 +7,11 @@ class Bucket:
         CDN Bucket Manager
 
         init method creates connection with arvan cloud bucket
+        
+        get_objects method get all objects from arvan cloud bucket in dic==>tasks.py==>celery==>bucket view
+        
+        delete_object method is for deleting one object from arvan cloud bucket and it use in delete obj view
+         
 
         NOTE:
             None of this methods are async.you must use public interface in tasks.py modules instead!!
@@ -27,6 +32,11 @@ class Bucket:
             return result['Contents']
         else:
             return None
+        
+    def delete_object(self,key):
+        self.connection_bucket.delete_object(Bucket=settings.AWS_STORAGE_BUCKET_NAME,Key=key)
+        return True
+    
     
 
 bucket_instance=Bucket()

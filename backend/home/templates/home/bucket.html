@@ -30,8 +30,9 @@
                         <th scope="row">{{forloop.counter}}</th>
                         <td>{{obj.Key}}</td>
                         <td>{{obj.Size | filesizeformat}}</td>
+                        <td><a href="{% url "home:bucket-delete-object" obj.Key %}">Delete</a></td>
                         <td>Download</td>
-                        <td>Delete</td>
+                        
                     </tr>
                 {% endfor %}
 
