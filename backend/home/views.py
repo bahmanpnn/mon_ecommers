@@ -23,3 +23,9 @@ class DeleteObjectView(View):
         home_tasks.delete_object_task.delay(key)
         messages.success(request,'your object will be delete soon',extra_tags='info')
         return redirect('home:bucket')
+
+class DownloadObjectView(View):
+    def get(self,request,key):
+        home_tasks.download_object_task.delay(key)
+        messages.success(request,'your object will be delete soon',extra_tags='info')
+        return redirect('home:bucket')
