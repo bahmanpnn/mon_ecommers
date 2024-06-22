@@ -41,6 +41,10 @@ class UserAdmin(BaseUserAdmin):
     # so its empty but it is required to write
     filter_horizontal=()
 
+class OtpAdmin(admin.ModelAdmin):
+    list_display=['phone_number','code','created_date']
+
+
 admin.site.unregister(Group) 
 admin.site.register(User,UserAdmin)
-admin.site.register(OtpCode)
+admin.site.register(OtpCode,OtpAdmin)
