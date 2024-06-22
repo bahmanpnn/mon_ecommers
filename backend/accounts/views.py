@@ -3,8 +3,10 @@ from django.views import View
 from django.contrib import messages
 from random import randint
 from utils import send_otp_code
-from .forms import UserRegisterForm,VerifycodeForm
+from .forms import UserRegisterForm,VerifycodeForm,LoginForm
 from .models import OtpCode,User
+from django.contrib.auth import login,logout,authenticate
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 class UserRegisterView(View):
     form_class=UserRegisterForm
@@ -76,4 +78,52 @@ class UserVerifyCodeView(View):
                                please register again',extra_tags='danger')
                 return redirect('accounts:verify-code')
         return redirect('accounts:verify-code')
+
+
+class UserLoginView(View):
+    template_name='accounts/login.html'
+    form_class=LoginForm
+
+    def get(self,request):
+        return render(request,self.template_name,{
+            'form':self.form_class()
+        })
+    
+    def post(self,request):
+        form=self.form_class(request.POST)
+
+        if form.is_valid():
+            cd=form.cleaned_data
+
+            check_phone_number=User.objects.filter(phone_number=cd['email_or_phone_number']).exists()
+            if check_phone_number:
+                user=authenticate(request,phone_number=cd['email_or_phone_number'],password=cd['password'])
+                if user is not None:
+                    login(request,user)
+                    messages.success(request,'you logged in successfully!!',extra_tags='success')
+                    return redirect('home:home-page')
+
+            check_email=User.objects.filter(email=cd['email_or_phone_number']).exists()
+            if check_email:
+                check_user=User.objects.get(email=cd['email_or_phone_number'])
+                check_user_password=check_user.check_password(cd['password'])
+                
+                if check_user_password:
+                    login(request,check_user)
+                    messages.success(request,'you logged in successfully!!',extra_tags='success')
+                    return redirect('home:home-page')
+                else:
+                    messages.error(request,'password or email-phone_number is wrong!! ',extra_tags='danger')
+            else:
+                messages.error(request,'password or email-phone_number is wrong!! ',extra_tags='danger')
+        
+        return render(request,self.template_name,{
+            'form':form
+        })
+                    
             
+class UserLogoutView(LoginRequiredMixin,View):
+    def get(self,request):
+        logout(request)
+        messages.success(request,'you logged out successfully!!',extra_tags='success')
+        return redirect('home:home-page')

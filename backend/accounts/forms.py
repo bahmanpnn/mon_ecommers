@@ -81,8 +81,22 @@ class UserRegisterForm(forms.Form):
             raise ValidationError('this phone number already exists!!')
         return phone_number
 
-
 class VerifycodeForm(forms.Form):
     code=forms.IntegerField(widget = forms.TextInput(attrs={
         'class':'form-control'
     }))
+
+class LoginForm(forms.Form):
+    email_or_phone_number=forms.CharField(widget=forms.TextInput(attrs={
+        'class':'form-control'
+    }))
+    password=forms.CharField(widget=forms.PasswordInput(attrs={
+        'class':'form-control'
+    }))
+
+    # def clean_email_or_phone_number(self):
+    #     email=self.cleaned_data['email']
+    #     user=User.objects.filter(email=email).exists()
+    #     if user:
+    #         raise ValidationError('this email already exists!!')
+    #     return email

@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% load static %}
+
+
+{% block title %}login page{% endblock title %}
+{% block headers %}
+    <link rel="stylesheet" href="{% static "accounts/css/accounts.css" %}">
+{% endblock headers %}
+{% block content %}
+
+    <form method='post' class="col-md-3 offset-4" action="" novalidate>
+        {% csrf_token %}
+        {{form.as_p}}
+        <input type='submit' value='login' class='form-control col-md-1 bg-dark text-white'>
+    </form>
+
+{% endblock content %}
