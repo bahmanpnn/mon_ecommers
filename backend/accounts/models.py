@@ -43,7 +43,7 @@ class OtpCode(models.Model):
         we create user object.
     '''
 
-    phone_number=models.CharField(max_length=11)
+    phone_number=models.CharField(max_length=11,unique=True)
     code=models.PositiveSmallIntegerField()
     created_date=models.DateTimeField(auto_now=True)
 

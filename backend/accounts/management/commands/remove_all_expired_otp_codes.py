@@ -1,7 +1,7 @@
 from django.core.management.base import BaseCommand
 from accounts.models import OtpCode
 from datetime import datetime,timedelta
-
+# import pytz
 
 class Command(BaseCommand):
     """
@@ -16,6 +16,7 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
         expired_time=datetime.now()-timedelta(minutes=2)
+        # expired_time=datetime.now(tz=pytz.timezone('Asia/Tehran'))-timedelta(minutes=2)
         OtpCode.objects.filter(created_date__lt=expired_time).delete()
 
         self.stdout.write(self.style.SUCCESS('otp codes removed successfully!!'))
