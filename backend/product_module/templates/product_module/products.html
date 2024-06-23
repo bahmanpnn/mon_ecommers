@@ -8,15 +8,41 @@
 {% endblock headers %}
 
 {% block content %}
+    {% for category in categories %}
+        {% comment %} <div class="btn-group">
+            <a href="{{ category.get_absolute_url }}" class="btn btn-secondary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+            {{category.name}}
+            </a>
+            <ul class="dropdown-menu">
+            {% for sub_category in category.subb_category.all %}
+                <li><a class="dropdown-item" href="{{sub_category.get_absolute_url}}">{{sub_category.name}}</a></li>
+            {% endfor %}
+            </ul>
+        </div> {% endcomment %}
+        <div class="btn-group">
+            <a href="{{ category.get_absolute_url }}" class="btn btn-secondary">{{category.name}}</a>
+            <button type="button" class="btn btn-secondary dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown" aria-expanded="false">
+            <span class="visually-hidden">Toggle Dropdown</span>
+            </button>
+
+            <ul class="dropdown-menu">
+                {% for sub_category in category.subb_category.all %}
+                <li><a class="dropdown-item" href="{{sub_category.get_absolute_url}}">{{sub_category.name}}</a></li>
+                {% endfor %}            
+            </ul>
+        </div>
+    {% endfor %}
+    <br>
+    <br>
     {% if products %}
 
         {% for product in products %}
-             <div class="card" style="width: 18rem;" >
+             <div class="card" style="width: 18rem; display:inline-block" >
                  <div class="card-body">
                      <h5 class="card-title">{{product.name}}</h5>
                      <p class="card-text">{{product.description}}</p>
                      <a href="{{product.get_absolute_url}}">
-                        <img src="{{product.image.url}}" class="card-img-top" alt="...">
+                        <img src="{{product.image.url}}" style="width: 250px; height: 250px;" class="card-img-top" alt="...">
                     </a>
                      
                 {% comment %} <a href="{% url "products:product-detail" slug=product.slug %}" class="btn btn-primary">Go somewhere</a>  {% endcomment %}
