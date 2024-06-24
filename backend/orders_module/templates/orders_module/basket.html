@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+{% load static %}
+
+
+{% block title %}
+    basket
+{% endblock title %}
+
+{% block headers %}
+
+{% endblock headers %}
+
+
+
+{% block content %}
+        <table class="table table-striped">
+            <thead class="table-dark">
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Name</th>
+                <th scope="col">Size</th>
+                <th scope="col">Download</th>
+                <th scope="col">Delete</th>
+            </tr>
+            </thead>
+            <tbody>
+
+                    <tr>
+                        <th scope="row">1</th>
+                        <td>mark</td>
+                        <td>bahman</td>
+                        <td><a href="#">Download</a></td>
+                        <td><a href="#">Delete</a></td>
+                        
+                    </tr>
+
+            </tbody>
+        </table>
+{% endblock content %}
