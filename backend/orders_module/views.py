@@ -6,3 +6,7 @@ class BasketView(View):
 
     def get(self,request):
         return render(request,self.template_name)
+    
+class BasketAddView(View):
+    def post(self,request,product_id):
+        pass

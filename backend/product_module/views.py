@@ -1,7 +1,7 @@
 from django.shortcuts import get_object_or_404, render
 from django.views import View
 from .models import Product,Category
-
+from orders_module.forms import AddBasketForm
 
 class ProductsView(View):
     template_name='product_module/products.html'
@@ -22,18 +22,17 @@ class ProductsView(View):
 
 class ProductDetailView(View):
     template_name='product_module/product_detail.html'
+    form=AddBasketForm
 
     def get(self,request,slug):
         target_product=get_object_or_404(Product,slug=slug)
-        # target_product=Product.objects.get(slug=slug) #get (object,or return None)
+
         return render(request,self.template_name,{
-            'product':target_product
+            'product':target_product,
+            'form':self.form()
         })
-    
-    # def get(self,request,slug):
-    #     # target_product=get_object_or_404(Product,slug=slug)
+       
     #     target_product=Product.objects.get(slug=slug) #get (object,or return None)
-        
     #     if target_product is not None:
     #         return render(request,self.template_name,{
     #             'product':target_product
