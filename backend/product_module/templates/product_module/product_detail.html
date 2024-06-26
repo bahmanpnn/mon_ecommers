@@ -14,7 +14,7 @@
     <p>{{product.description}} </p>
     <br>
     <br>
-    <form action="" method='post' class="col-md-3" novalidate>
+    <form action="{% url "orders_module:basket-add" product_id=product.id %}" method='post' class="col-md-3" novalidate>
         {% csrf_token %}
         {{form}}
         <input type='submit' value='add to basket' >
