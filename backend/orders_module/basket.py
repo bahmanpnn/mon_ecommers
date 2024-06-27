@@ -65,6 +65,10 @@ class Basket:
     #we can write get total price codes in basket view too,but here is better
     def get_total_price(self):
         return sum(int(item['price']) * item['quantity'] for item in self.basket.values())
+    
+    def __len__(self):
+        return len(self.basket.values())
+        # return sum(item['quantity'] for item in self.basket.values())
 
 
 '''

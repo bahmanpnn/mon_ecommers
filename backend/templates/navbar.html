@@ -19,7 +19,7 @@
             <a class="nav-link " aria-current="page" href="{% url "accounts:logout-page" %}">logout</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link " aria-current="page" href="{% url "orders:basket" %}">basket</a>
+            <a class="nav-link " aria-current="page" href="{% url "orders:basket" %}">basket{% if counts %}({{counts|length}}){% endif %}</a>
           </li>
           {% else %}
           <li class="nav-item">
