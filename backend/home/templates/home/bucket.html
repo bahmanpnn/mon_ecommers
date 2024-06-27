@@ -32,13 +32,14 @@
                         <td>{{obj.Size | filesizeformat}}</td>
                         <td><a href="{% url "home:bucket-download-object" obj.Key %}">Download</a></td>
                         <td><a href="{% url "home:bucket-delete-object" obj.Key %}">Delete</a></td>
-                        <td>Download</td>
                         
                     </tr>
                 {% endfor %}
 
             </tbody>
         </table>
+    {% else %}
+    <h2 class='text-center'>bucket is empty</h2>
     {% endif %}
 {% endblock content %}
 

@@ -9,7 +9,17 @@ class BasketView(View):
     template_name="orders_module/basket.html"
 
     def get(self,request):
-        return render(request,self.template_name)
+        basket=Basket(request)
+
+        print('='*90)
+        print(basket.basket) # basket(classname).basket(variable name)
+        print(len(basket.basket))
+        print(bool(basket.basket))
+
+        return render(request,self.template_name,{
+            'basket':basket,
+            'check_basket':bool(basket.basket)
+        })
     
 class BasketAddView(View):
     '''
@@ -26,5 +36,5 @@ class BasketAddView(View):
             basket.add(product,form.cleaned_data['quantity'])
 
         messages.success(request,'product added to basket successfully!!',extra_tags='success')
-        return redirect('product_module:products')
+        return redirect('products:products')
         # return redirect('product_module:product-detail',product.slug)
