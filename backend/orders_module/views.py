@@ -11,10 +11,11 @@ class BasketView(View):
     def get(self,request):
         basket=Basket(request)
 
-        print('='*90)
-        print(basket.basket) # basket(classname).basket(variable name)
-        print(len(basket.basket))
-        print(bool(basket.basket))
+        # print('='*90)
+        # print(basket.basket) # basket(classname).basket(variable name)
+        # print(basket.__dict__)
+        # print(len(basket.basket))
+        # print(bool(basket.basket))
 
         return render(request,self.template_name,{
             'basket':basket,
@@ -38,3 +39,16 @@ class BasketAddView(View):
         messages.success(request,'product added to basket successfully!!',extra_tags='success')
         return redirect('products:products')
         # return redirect('product_module:product-detail',product.slug)
+
+
+
+
+
+class BasketRemoveView(View):
+    def get(self,request,product_id):
+        basket=Basket(request)
+        product=get_object_or_404(Product,id=product_id)
+        if product:
+            basket.remove_product(product)
+            messages.success(request,'product removed successfully',extra_tags='success')
+            return redirect('orders:basket')

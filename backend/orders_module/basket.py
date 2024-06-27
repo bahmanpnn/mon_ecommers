@@ -30,15 +30,16 @@ class Basket:
 
         # now we need to add products data like product name
         for product in products:
-            # basket[str(product.id)]['product']=product # __str__ is product.name
-            basket[str(product.id)]['product']=product.name
+            basket[str(product.id)]['product']=product 
+            # __str__ is product.name and in basket template show str not complete obj and
+            # here save entire product model obj and for that we have access to 
+            # product id for removing and basket-remove url in basket table 
+            # basket[str(product.id)]['product']=product.name but this make error for removing :))
 
         for item in basket.values():
             item['total_price']=item['quantity'] * int(item['price'])
             yield item
     
-
-        
 
     def add(self,product,quantity):
         '''
@@ -55,6 +56,15 @@ class Basket:
     def save(self):
         self.session.modified=True
 
+    def remove_product(self,product):
+        product_id=str(product.id)
+        if product_id in self.basket:
+            del(self.basket[product_id])
+            self.save()
+
+    #we can write get total price codes in basket view too,but here is better
+    def get_total_price(self):
+        return sum(int(item['price']) * item['quantity'] for item in self.basket.values())
 
 
 '''
