@@ -1,11 +1,19 @@
 from django.shortcuts import render,get_object_or_404,redirect
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib import messages
 from django.views import View
 from product_module.models import Product
 from .forms import AddBasketForm
 from .basket import Basket
-from django.contrib import messages
+from .models import Order,OrderItem
 
-class BasketView(View):
+class BasketView(LoginRequiredMixin,View):
+    '''
+        Todo:set session time for few hours
+        because if price change in database and admin panel; session show last price not new price!!
+        or if project has product count, session cant help user to understand product sold out and
+        there is any of that!!
+    '''
     template_name="orders_module/basket.html"
 
     def get(self,request):
@@ -21,8 +29,9 @@ class BasketView(View):
             'basket':basket,
             'check_basket':bool(basket.basket)
         })
-    
-class BasketAddView(View):
+
+
+class BasketAddView(LoginRequiredMixin,View):
     '''
         post method comes from product detail view form that has a integer field,
         with basket.py and sessions we can add a product to basket and
@@ -41,10 +50,8 @@ class BasketAddView(View):
         # return redirect('product_module:product-detail',product.slug)
 
 
+class BasketRemoveView(LoginRequiredMixin,View):
 
-
-
-class BasketRemoveView(View):
     def get(self,request,product_id):
         basket=Basket(request)
         product=get_object_or_404(Product,id=product_id)
@@ -52,3 +59,25 @@ class BasketRemoveView(View):
             basket.remove_product(product)
             messages.success(request,'product removed successfully',extra_tags='success')
             return redirect('orders:basket')
+
+
+class OrderDetailView(LoginRequiredMixin,View):
+    template_name='orders_module/checkout.html'
+
+    def get(self,request,order_id):
+        order=get_object_or_404(Order,id=order_id)
+        return render(request,self.template_name,{
+            'order':order
+        })
+    
+    
+class OrderCreateView(LoginRequiredMixin,View):
+    def get(self,request):
+        basket=Basket(request)
+        order=Order.objects.create(user=request.user)
+        for item in basket:
+            OrderItem.objects.create(order=order,product=item['product'],price=item['price'],quantity=item['quantity'])
+        # basket.clear() #it clears items of basket and suppose to order paid!!
+        return redirect('orders:order-detail',order.id)
+
+    

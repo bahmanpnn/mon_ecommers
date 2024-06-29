@@ -70,6 +70,11 @@ class Basket:
         return len(self.basket.values())
         # return sum(item['quantity'] for item in self.basket.values())
 
+    def clear(self):
+        # del(self.basket)
+        del(self.session[BASKET_SESSION_ID])
+        self.save()
+
 
 '''
     session={
@@ -122,6 +127,17 @@ class Basket:
         'basket':
                 {'8':{'quantity':3,'price':'230','product':'lenovo ideapad s540','total_price':690},
                 {'3':{'quantity':2,'price':'250','product':'lenovo legion2','total_price':500}
+            },
+
+        }
+
+'''
+
+'''last session
+
+        session={
+        'basket':
+                {'product_id':{'quantity':3,'price':'230','product':'lenovo ideapad s540','total_price':690},
             },
 
         }

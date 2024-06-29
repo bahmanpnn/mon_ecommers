@@ -59,4 +59,5 @@
     {% else %}
     <h2 class='text-center'>basket is empty</h2>
     {% endif %}
+    <a class='btn btn-info' href='{% url "orders:order-create" %}'>checkout</a>
 {% endblock content %}

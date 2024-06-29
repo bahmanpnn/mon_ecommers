@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+{% load static %}
+
+
+{% block title %}
+    checkout page
+{% endblock title %}
+
+{% block headers %}
+
+{% endblock headers %}
+
+
+{% block content %}
+    <h3 class='text-center'>Checkout</h3>
+    <table class="table table-striped">
+        <thead class="table-dark text-center">
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">Name</th>
+            <th scope="col">Quantity</th>
+            <th scope="col">Unit Price</th>
+            <th scope="col">Total Price</th>
+        </tr>
+        </thead>
+        <tbody class='text-center'>
+
+            {% for item in order.order_items.all %}
+            <tr>
+                <th scope="row">{{forloop.counter}}</th>
+                <td>{{item.product.name}}</td>
+                <td>{{item.quantity}}</td>
+                <td>{{item.price}}</td>
+                <td>{{item.get_cost}}</td>
+                
+            </tr>
+            {% endfor %}
+            <tr class="table-primary text-center">
+                <td class='text-center'>Total</td>
+                <td >{{order.get_total_price}}</td>
+            </tr>
+
+        </tbody>
+    </table>
+    {% comment %} <p>total:{{order.get_total_price}}</p> {% endcomment %}
+{% endblock content %}
