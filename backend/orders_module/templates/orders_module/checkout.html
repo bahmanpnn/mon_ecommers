@@ -7,7 +7,7 @@
 {% endblock title %}
 
 {% block headers %}
-
+    <link rel="stylesheet" href="{% static "orders_module\css\orders.css" %}">
 {% endblock headers %}
 
 
@@ -42,5 +42,5 @@
 
         </tbody>
     </table>
-    {% comment %} <p>total:{{order.get_total_price}}</p> {% endcomment %}
+    <a class='btn btn-dark col-md-3 btn-pay' href='{% url "zarinpal:order-pay" %}'>pay</a>
 {% endblock content %}

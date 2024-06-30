@@ -81,3 +81,13 @@ class OrderCreateView(LoginRequiredMixin,View):
         return redirect('orders:order-detail',order.id)
 
     
+# class OrderPayView(LoginRequiredMixin,View):
+#     def get(self,request,order_id):
+#         order=Order.objects.get(id=order_id)
+#         data = {
+#             "MerchantID": settings.MERCHANT,
+#             "Amount": amount,
+#             "Description": description,
+#             "Phone": phone,
+#             "CallbackURL": CallbackURL,
+#         }

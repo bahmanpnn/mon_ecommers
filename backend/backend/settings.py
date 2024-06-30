@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'home.apps.HomeConfig',
     'product_module.apps.ProductModuleConfig',
     'orders_module.apps.OrdersModuleConfig',
+    'zarinpal_module.apps.ZarinpalModuleConfig',
     
     #third party apps
     'storages',
@@ -170,3 +171,9 @@ AWS_S3_ENDPOINT_URL= 'https://s3.ir-tbz-sh1.arvanstorage.ir'
 AWS_STORAGE_BUCKET_NAME= 'avalanch-django-shop' #in arvan cloud server must be unique this name
 AWS_SEVICE_NAME= 's3' #this is not necessary for configing but it uses for geting data from clouds
 AWS_LOCAL_STORAGE=f'{BASE_DIR}/aws/'
+
+# ZARINPAL
+# SANDBOX MODE
+MERCHANT = "00000000-0000-0000-0000-000000000000"
+
+SANDBOX = True
