@@ -30,15 +30,18 @@ CallbackURL = 'http://127.0.0.1:8000/checkout/pay/verify'
 class OrderPayView(LoginRequiredMixin,View):
     def get(self,request,order_id):
         order=Order.objects.get(id=order_id)
+        request.session['order_pay']={
+            'order_id':order.id,
+        }
 
         print(order.user.phone_number)
         print(request.user.phone_number)
 
         data = {
             "MerchantID": settings.MERCHANT,
-            "Amount": order.get_total_price(),
+            # "Amount": order.get_total_price(),
             # "Amount": order.get_total_price()*10 #change toman to rial,
-            # "Amount": amount,
+            "Amount": amount,
             "Description": description,
             "Phone": request.user.phone_number,
             # "Phone": phone,
@@ -65,13 +68,24 @@ class OrderPayView(LoginRequiredMixin,View):
 
 
 class OrderVerifyView(LoginRequiredMixin,View):
-    def get(self,authority):
+    def get(self,request):
+    # def get(self,request,authority=None):
     # def get(self,authority,request=None):
+        
+        order_id=request.session['order_pay']['order_id']
+        order=Order.objects.get(id=int(order_id))
+
+
         data = {
         "MerchantID": settings.MERCHANT,
+        # "Amount": order.get_total_price()*10,
+        # "Amount": order.get_total_price(),
         "Amount": amount,
-        "Authority": authority,
+        "Authority": 'authority',
+        # "Authority": request.GET.get['authority'],
+        # "Authority": authority,
         }
+        
         data = json.dumps(data)
         # set content length by data
         headers = {'content-type': 'application/json', 'content-length': str(len(data)) }
