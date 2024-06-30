@@ -3,9 +3,10 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib import messages
 from django.views import View
 from product_module.models import Product
-from .forms import AddBasketForm
+from .forms import AddBasketForm,CouponApplyForm
 from .basket import Basket
-from .models import Order,OrderItem
+from .models import Order,OrderItem,Coupon
+import datetime
 
 class BasketView(LoginRequiredMixin,View):
     '''
@@ -63,12 +64,16 @@ class BasketRemoveView(LoginRequiredMixin,View):
 
 class OrderDetailView(LoginRequiredMixin,View):
     template_name='orders_module/checkout.html'
+    form_class=CouponApplyForm
 
     def get(self,request,order_id):
         order=get_object_or_404(Order,id=order_id)
+
         return render(request,self.template_name,{
-            'order':order
+            'order':order,
+            'form':self.form_class
         })
+    
     
     
 class OrderCreateView(LoginRequiredMixin,View):
@@ -80,14 +85,24 @@ class OrderCreateView(LoginRequiredMixin,View):
         # basket.clear() #it clears items of basket and suppose to order paid!!
         return redirect('orders:order-detail',order.id)
 
-    
-# class OrderPayView(LoginRequiredMixin,View):
-#     def get(self,request,order_id):
-#         order=Order.objects.get(id=order_id)
-#         data = {
-#             "MerchantID": settings.MERCHANT,
-#             "Amount": amount,
-#             "Description": description,
-#             "Phone": phone,
-#             "CallbackURL": CallbackURL,
-#         }
+class CouponApplyView(LoginRequiredMixin,View):
+    form_class=CouponApplyForm
+
+    def post(self,request,order_id):
+        now=datetime.datetime.now()
+        form=self.form_class(request.POST)
+
+        if form.is_valid():
+            code=form.cleaned_data['code']
+            try:
+                coupon=Coupon.objects.get(code__exact=code,valid_from__lte=now,valid_to__gte=now,is_active=True)
+
+            except Coupon.DoesNotExist:
+                messages.error(request,'this coupon does not exists or maybe expired!!',extra_tags='danger')
+                return redirect('orders:order-detail',order_id)
+            
+            order=Order.objects.get(id=order_id)
+            order.discount=coupon.discount
+            order.save()
+            messages.success(request,'coupon added successfully',extra_tags='success')
+        return redirect('orders:order-detail',order_id)

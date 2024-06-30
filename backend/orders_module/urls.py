@@ -13,4 +13,5 @@ urlpatterns = [
     #orders
     path('order_create/',views.OrderCreateView.as_view(),name='order-create'),
     path('order_detail/<int:order_id>/',views.OrderDetailView.as_view(),name='order-detail'),
+    path('coupon_apply/<int:order_id>/',views.CouponApplyView.as_view(),name='coupon-apply'),
 ]

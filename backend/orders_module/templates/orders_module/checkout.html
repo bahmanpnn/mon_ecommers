@@ -42,5 +42,11 @@
 
         </tbody>
     </table>
-    <a class='btn btn-dark col-md-3 btn-pay' href='{% url "zarinpal:order-pay" %}'>pay</a>
+    <a class='btn btn-dark col-md-3 btn-pay' href='{% url "zarinpal:order-pay" order.id %}'>pay</a>
+    <br><br>
+    <form class='col-md-2' action="{% url "orders:coupon-apply" order_id=order.id %}" method='post' novalidate>
+        {% csrf_token %}
+        {{form.as_p}}
+        <input value='apply' type='submit'>
+    </form>
 {% endblock content %}
