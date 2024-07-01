@@ -22,6 +22,7 @@ kavenegar==1.1.2
 kombu==5.3.7
 pillow==10.3.0
 prompt_toolkit==3.0.46
+psycopg2==2.9.9
 python-crontab==3.1.0
 python-dateutil==2.9.0.post0
 pytz==2024.1

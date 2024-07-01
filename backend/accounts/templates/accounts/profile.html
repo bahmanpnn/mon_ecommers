@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% load static %}
+
+
+{% block title %}profile page{% endblock title %}
+{% block headers %}
+    <link rel="stylesheet" href="{% static "accounts/css/accounts.css" %}">
+{% endblock headers %}
+ 
+{% block content %}
+    <a href="{% url "accounts:user-receipts" %}" class="btn btn-dark">receipts</a>
+    <form method='post' class="col-md-3 offset-4" action="" novalidate>
+        {% csrf_token %}
+        {{form.as_p}}
+        <input type='submit' value='submit' class='form-control col-md-1 bg-dark text-white'>
+    </form>
+
+{% endblock content %}

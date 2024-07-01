@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+{% load static %}
+
+
+{% block title %}profile page{% endblock title %}
+{% block headers %}
+    <link rel="stylesheet" href="{% static "accounts/css/accounts.css" %}">
+{% endblock headers %}
+ 
+{% block content %}
+    <h3 class="text-center" style="font-size:xxx-large;padding:7px">receipts</h3>
+
+    {% if receipts %}
+        <table class="table table-striped">
+            <thead class="table-dark text-center">
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">paid date</th>
+                <th scope="col">Total Price paid</th>
+                <th scope="col">discount</th>
+            </tr>
+            </thead>
+            <tbody class='text-center'>
+
+                {% for receipt in receipts %}
+                    <tr>
+                        <th scope="row">{{forloop.counter}}</th>
+                        <td>{{receipt.created_date}}</td>
+                        <td>{{receipt.get_total_price}}</td>
+                        {% if receipt.discount %}<td>{{receipt.discount}}</td>{% else %}<td> - </td>{% endif %}
+                        
+                    </tr>
+                {% endfor %}
+
+            </tbody>
+        </table>
+    {% else %}
+    <h2 class='text-center'>receipt table is empty</h2>
+    {% endif %}
+{% endblock content %}

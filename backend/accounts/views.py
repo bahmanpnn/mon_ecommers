@@ -1,12 +1,13 @@
+from random import randint
+from utils import send_otp_code
 from django.shortcuts import render,redirect
 from django.views import View
 from django.contrib import messages
-from random import randint
-from utils import send_otp_code
-from .forms import UserRegisterForm,VerifycodeForm,LoginForm
-from .models import OtpCode,User
 from django.contrib.auth import login,logout,authenticate
 from django.contrib.auth.mixins import LoginRequiredMixin
+from orders_module.models import Order
+from .forms import UserRegisterForm,VerifycodeForm,LoginForm,ProfileForm
+from .models import OtpCode,User
 
 class UserRegisterView(View):
     form_class=UserRegisterForm
@@ -127,3 +128,36 @@ class UserLogoutView(LoginRequiredMixin,View):
         logout(request)
         messages.success(request,'you logged out successfully!!',extra_tags='success')
         return redirect('home:home-page')
+
+
+class UserProfileView(LoginRequiredMixin,View):
+    form_class=ProfileForm
+    template_name='accounts/profile.html'
+    
+    def get(self,request):
+        
+        return render(request,self.template_name,{
+            'form':self.form_class(instance=request.user)
+        })
+
+    def post(self,request):
+        # TODO: check email and phone to dont exist in database and used before except this user
+        # TODO: after checking send otp code for phone number or email for email if changed 
+        form=self.form_class(request.POST,instance=request.user)
+        if form.is_valid():
+            form.save()
+            messages.success(request,'profile updated successfully',extra_tags='success')
+            return redirect('accounts:user-profile')
+
+
+class UserReceiptView(LoginRequiredMixin,View):
+    template_name='accounts/receipts.html'
+
+    def get(self,request):
+        receipts=Order.objects.filter(user=request.user,is_paid=True)
+
+        return render(request,self.template_name,{
+            'receipts':receipts
+        })
+
+

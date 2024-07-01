@@ -101,3 +101,20 @@ class LoginForm(forms.Form):
     #     if user:
     #         raise ValidationError('this email already exists!!')
     #     return email
+
+class ProfileForm(forms.ModelForm):
+    class Meta:
+        model=User
+        fields=('email','phone_number','fullname')
+
+        widgets={
+            'email':forms.TextInput(attrs={
+                'class':'form-control',
+            }),
+            'phone_number':forms.TextInput(attrs={
+                'class':'form-control',
+            }),
+            'fullname':forms.TextInput(attrs={
+                'class':'form-control',
+            }),
+        }

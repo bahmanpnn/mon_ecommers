@@ -20,7 +20,7 @@ class UserAdmin(BaseUserAdmin):
         }),
         ('Permissions',{
             "fields":(
-                'is_active','is_admin','last_login'
+                'is_active','is_admin','is_superuser','last_login'
             )
         })
     )
@@ -40,6 +40,7 @@ class UserAdmin(BaseUserAdmin):
     # this is for permissions that set in User model but we did not set any permission yet,
     # so its empty but it is required to write
     filter_horizontal=()
+    readonly_fields=('last_login',)
 
 class OtpAdmin(admin.ModelAdmin):
     list_display=['phone_number','code','created_date']
